@@ -1,0 +1,41 @@
+name: mColor
+version: ${version}
+main: io.github.miklires.mcolor.MColorPlugin
+api-version: '26.2'
+author: miklires
+description: Player name colors, gradients, presets, and cross-server synchronization
+website: https://github.com/miklires/mColor
+folia-supported: true
+softdepend: [PlaceholderAPI, LuckPerms]
+libraries:
+  - com.zaxxer:HikariCP:6.2.1
+  - com.h2database:h2:2.3.232
+  - org.xerial:sqlite-jdbc:3.47.1.0
+  - com.mysql:mysql-connector-j:9.1.0
+  - org.mariadb.jdbc:mariadb-java-client:3.5.1
+  - org.postgresql:postgresql:42.7.5
+
+permissions:
+  mcolor.use:
+    description: Use /color and open the color menu
+    default: true
+  mcolor.hex:
+    description: Use arbitrary hexadecimal colors
+    default: op
+  mcolor.gradient:
+    description: Use gradients
+    default: op
+  mcolor.rainbow:
+    description: Use the rainbow preset
+    default: op
+  mcolor.color.*:
+    description: Use all named colors
+    default: op
+  mcolor.admin:
+    description: Reload mColor settings
+    default: op
+    children:
+      mcolor.hex: true
+      mcolor.gradient: true
+      mcolor.rainbow: true
+      mcolor.color.*: true

@@ -1,0 +1,62 @@
+config-version: 1
+
+language:
+  default: en_US
+  per-player: true
+
+storage:
+  # h2 works out of the box. Also supported: sqlite, mysql, mariadb, postgresql.
+  type: h2
+  jdbc-url: ""
+  host: localhost
+  port: 3306
+  database: mcolor
+  username: ""
+  password: ""
+  pool-size: 4
+  connection-timeout-millis: 10000
+
+apply:
+  display-name: true
+  player-list-name: true
+
+limits:
+  gradient-colors: 8
+
+sync:
+  # Enable when several servers share one network database.
+  enabled: false
+  server-id: server-1
+  poll-seconds: 5
+
+metrics:
+  enabled: true
+  bstats-id: 33355
+
+updates:
+  enabled: true
+  project: mcolor
+
+named-colors:
+  black: "#000000"
+  dark_blue: "#0000AA"
+  dark_green: "#00AA00"
+  dark_aqua: "#00AAAA"
+  dark_red: "#AA0000"
+  dark_purple: "#AA00AA"
+  gold: "#FFAA00"
+  gray: "#AAAAAA"
+  dark_gray: "#555555"
+  blue: "#5555FF"
+  green: "#55FF55"
+  aqua: "#55FFFF"
+  red: "#FF5555"
+  light_purple: "#FF55FF"
+  yellow: "#FFFF55"
+  white: "#FFFFFF"
+
+gradient-presets:
+  sunset: ["#FF5F6D", "#FFC371"]
+  ocean: ["#00C6FF", "#0072FF", "#7F7FD5"]
+  forest: ["#11998E", "#38EF7D"]
+  candy: ["#FC466B", "#3F5EFB", "#43E97B"]
