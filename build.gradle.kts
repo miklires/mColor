@@ -61,7 +61,7 @@ modrinth {
     versionType.set("release")
     uploadFile.set(tasks.shadowJar)
     gameVersions.add("26.2")
-    loaders.addAll("paper", "purpur")
+    loaders.addAll("paper", "purpur", "folia")
     changelog.set(provider { file("CHANGELOG.md").readText() })
     syncBodyFrom.set(file("README.md").readText())
 }
