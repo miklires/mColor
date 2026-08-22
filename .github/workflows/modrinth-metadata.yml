@@ -8,6 +8,9 @@ on:
         required: true
         type: boolean
         default: false
+      version-id:
+        description: Modrinth version ID to normalize
+        required: false
 
 permissions:
   contents: read
@@ -52,10 +55,30 @@ jobs:
               --header "Content-Type: application/json" \
               --data-binary @- \
               "https://api.modrinth.com/v3/project/$MODRINTH_PROJECT_ID/disclosures"
+      - name: Normalize version metadata
+        if: ${{ inputs.version-id != '' }}
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          VERSION_ID: ${{ inputs.version-id }}
+        run: |
+          jq -n '{
+            name: "mColor 1.0.0",
+            version_number: "1.0.0",
+            version_type: "release",
+            featured: true,
+            game_versions: ["26.2"],
+            loaders: ["paper", "purpur", "folia"]
+          }' > modrinth-version.json
+          curl --fail-with-body --request PATCH \
+            --header "Authorization: $MODRINTH_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data-binary @modrinth-version.json \
+            "https://api.modrinth.com/v2/version/$VERSION_ID"
       - name: Verify metadata
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           MODRINTH_PROJECT_ID: ${{ secrets.MODRINTH_PROJECT_ID }}
+          VERSION_ID: ${{ inputs.version-id }}
         run: |
           curl --fail-with-body --silent \
             --header "Authorization: $MODRINTH_TOKEN" \
@@ -65,3 +88,9 @@ jobs:
             --header "Authorization: $MODRINTH_TOKEN" \
             "https://api.modrinth.com/v3/project/$MODRINTH_PROJECT_ID/disclosures" \
             | jq '.disclosures | map({type, consent, data_collected})'
+          if [ -n "$VERSION_ID" ]; then
+            curl --fail-with-body --silent \
+              --header "Authorization: $MODRINTH_TOKEN" \
+              "https://api.modrinth.com/v2/version/$VERSION_ID" \
+              | jq '{id, name, version_number, status, game_versions, loaders, featured, files: [.files[].filename]}'
+          fi
