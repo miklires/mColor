@@ -44,6 +44,16 @@ jobs:
             --header "Content-Type: application/json" \
             --data-binary @modrinth-project.json \
             "https://api.modrinth.com/v2/project/$MODRINTH_PROJECT_ID"
+      - name: Update project icon
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          MODRINTH_PROJECT_ID: ${{ secrets.MODRINTH_PROJECT_ID }}
+        run: |
+          curl --fail-with-body --request PATCH \
+            --header "Authorization: $MODRINTH_TOKEN" \
+            --header "Content-Type: image/png" \
+            --data-binary @docs/assets/mcolor-icon.png \
+            "https://api.modrinth.com/v2/project/$MODRINTH_PROJECT_ID/icon?ext=png"
       - name: Update telemetry disclosure
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
@@ -83,7 +93,7 @@ jobs:
           curl --fail-with-body --silent \
             --header "Authorization: $MODRINTH_TOKEN" \
             "https://api.modrinth.com/v2/project/$MODRINTH_PROJECT_ID" \
-            | jq '{id, slug, status, requested_status, categories, source_url, issues_url, wiki_url, discord_url, donation_urls}'
+            | jq '{id, slug, status, requested_status, icon_url, categories, source_url, issues_url, wiki_url, discord_url, donation_urls}'
           curl --fail-with-body --silent \
             --header "Authorization: $MODRINTH_TOKEN" \
             "https://api.modrinth.com/v3/project/$MODRINTH_PROJECT_ID/disclosures" \
