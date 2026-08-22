@@ -1,4 +1,5 @@
 <div align="center">
+  <img alt="mColor" width="160" src="https://raw.githubusercontent.com/miklires/mColor/main/docs/assets/mcolor-icon.png">
   <h1>mColor</h1>
   <p>Player name colors, multi-stop gradients, presets, and network synchronization.</p>
 
