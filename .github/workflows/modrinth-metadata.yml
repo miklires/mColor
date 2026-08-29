@@ -44,16 +44,6 @@ jobs:
             --header "Content-Type: application/json" \
             --data-binary @modrinth-project.json \
             "https://api.modrinth.com/v2/project/$MODRINTH_PROJECT_ID"
-      - name: Update project icon
-        env:
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-          MODRINTH_PROJECT_ID: ${{ secrets.MODRINTH_PROJECT_ID }}
-        run: |
-          curl --fail-with-body --request PATCH \
-            --header "Authorization: $MODRINTH_TOKEN" \
-            --header "Content-Type: image/png" \
-            --data-binary @docs/assets/mcolor-icon.png \
-            "https://api.modrinth.com/v2/project/$MODRINTH_PROJECT_ID/icon?ext=png"
       - name: Update telemetry disclosure
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
@@ -72,8 +62,8 @@ jobs:
           VERSION_ID: ${{ inputs.version-id }}
         run: |
           jq -n '{
-            name: "mColor 1.0.0",
-            version_number: "1.0.0",
+            name: "mColor 1.1.0",
+            version_number: "1.1.0",
             version_type: "release",
             featured: true,
             game_versions: ["26.2"],

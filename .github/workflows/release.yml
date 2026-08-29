@@ -17,11 +17,11 @@ jobs:
           distribution: temurin
           java-version: '25'
       - uses: gradle/actions/setup-gradle@v6
-      - run: ./gradlew clean build :api:build --no-daemon
+      - run: chmod +x gradlew && ./gradlew clean build :api:build --no-daemon
       - run: ./gradlew modrinth --no-daemon
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           MODRINTH_PROJECT_ID: ${{ secrets.MODRINTH_PROJECT_ID }}
-      - run: gh release create "${GITHUB_REF_NAME}" build/libs/mColor-1.0.0.jar api/build/libs/mColor-API-1.0.0.jar --title "${GITHUB_REF_NAME}" --notes-file CHANGELOG.md
+      - run: gh release create "${GITHUB_REF_NAME}" build/libs/mColor-1.1.0.jar api/build/libs/mColor-API-1.1.0.jar --title "${GITHUB_REF_NAME}" --notes-file CHANGELOG.md
         env:
           GH_TOKEN: ${{ github.token }}
