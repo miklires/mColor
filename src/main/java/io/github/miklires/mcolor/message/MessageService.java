@@ -30,8 +30,12 @@ public final class MessageService {
     private YamlConfiguration load(String locale) {
         YamlConfiguration custom = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "lang/" + locale + ".yml"));
         try (var stream = plugin.getResource("lang/" + locale + ".yml")) {
-            if (stream != null) custom.setDefaults(YamlConfiguration.loadConfiguration(
-                    new InputStreamReader(stream, StandardCharsets.UTF_8)));
+            if (stream != null) {
+                YamlConfiguration bundled = YamlConfiguration.loadConfiguration(
+                        new InputStreamReader(stream, StandardCharsets.UTF_8));
+                bundled.getKeys(true).stream().filter(key -> !bundled.isConfigurationSection(key))
+                        .filter(key -> !custom.contains(key)).forEach(key -> custom.set(key, bundled.get(key)));
+            }
         } catch (java.io.IOException exception) {
             plugin.getLogger().warning("Could not load bundled " + locale + " messages: " + exception.getMessage());
         }

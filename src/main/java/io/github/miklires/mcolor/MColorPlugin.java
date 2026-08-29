@@ -36,8 +36,7 @@ public final class MColorPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        getConfig().options().copyDefaults(true);
-        saveConfig();
+        validateConfig();
         saveLanguage("en_US");
         saveLanguage("ru_RU");
         scheduler = new PluginScheduler(this);
@@ -105,8 +104,29 @@ public final class MColorPlugin extends JavaPlugin {
 
     public void reloadSettings() {
         reloadConfig();
+        validateConfig();
         reloadPalettes();
         messages.reload();
+    }
+
+    private void validateConfig() {
+        int previousVersion = getConfig().getInt("config-version", 0);
+        getConfig().options().copyDefaults(true);
+        String language = getConfig().getString("language.default", "en_US");
+        if (!java.util.Set.of("en_US", "ru_RU").contains(language)) getConfig().set("language.default", "en_US");
+        if (previousVersion < 2) getConfig().set("language.per-player", false);
+        String storageType = getConfig().getString("storage.type", "h2").toLowerCase(java.util.Locale.ROOT);
+        if (!java.util.Set.of("h2", "sqlite", "mysql", "mariadb", "postgresql").contains(storageType)) {
+            getLogger().warning("Unsupported storage.type '" + storageType + "'; falling back to h2");
+            getConfig().set("storage.type", "h2");
+        }
+        getConfig().set("limits.gradient-colors", Math.clamp(getConfig().getInt("limits.gradient-colors", 8), 2, 16));
+        getConfig().set("limits.maximum-temporary-days", Math.clamp(getConfig().getLong("limits.maximum-temporary-days", 365), 1, 3650));
+        getConfig().set("history.display-limit", Math.clamp(getConfig().getInt("history.display-limit", 10), 1, 25));
+        getConfig().set("history.retention-days", Math.clamp(getConfig().getLong("history.retention-days", 90), 1, 3650));
+        getConfig().set("history.expiry-check-seconds", Math.clamp(getConfig().getLong("history.expiry-check-seconds", 30), 5, 300));
+        getConfig().set("config-version", 2);
+        saveConfig();
     }
 
     private void reloadPalettes() {
