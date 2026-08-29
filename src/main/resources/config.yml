@@ -1,8 +1,9 @@
-config-version: 1
+config-version: 2
 
 language:
   default: en_US
-  per-player: true
+  # When enabled, Russian clients automatically receive ru_RU messages.
+  per-player: false
 
 storage:
   # h2 works out of the box. Also supported: sqlite, mysql, mariadb, postgresql.
@@ -22,6 +23,16 @@ apply:
 
 limits:
   gradient-colors: 8
+  maximum-temporary-days: 365
+
+privacy:
+  # Players must explicitly opt in before other players can copy their color.
+  copy-public-by-default: false
+
+history:
+  display-limit: 10
+  retention-days: 90
+  expiry-check-seconds: 30
 
 sync:
   # Enable when several servers share one network database.

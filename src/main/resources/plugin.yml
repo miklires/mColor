@@ -13,7 +13,7 @@ libraries:
   - org.xerial:sqlite-jdbc:3.47.1.0
   - com.mysql:mysql-connector-j:9.1.0
   - org.mariadb.jdbc:mariadb-java-client:3.5.1
-  - org.postgresql:postgresql:42.7.5
+  - org.postgresql:postgresql:42.7.12
 
 permissions:
   mcolor.use:
@@ -28,6 +28,21 @@ permissions:
   mcolor.rainbow:
     description: Use the rainbow preset
     default: op
+  mcolor.temporary:
+    description: Apply a color for a limited time
+    default: op
+  mcolor.copy:
+    description: Copy a public color from an online player
+    default: true
+  mcolor.copy.bypass:
+    description: Copy colors regardless of the target privacy setting
+    default: op
+  mcolor.history:
+    description: View and restore personal color history
+    default: true
+  mcolor.preset.*:
+    description: Use every configured gradient preset
+    default: op
   mcolor.color.*:
     description: Use all named colors
     default: op
@@ -38,4 +53,8 @@ permissions:
       mcolor.hex: true
       mcolor.gradient: true
       mcolor.rainbow: true
+      mcolor.temporary: true
+      mcolor.copy.bypass: true
+      mcolor.history: true
+      mcolor.preset.*: true
       mcolor.color.*: true
