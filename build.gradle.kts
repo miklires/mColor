@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.miklires"
-version = "1.0.0"
+version = "1.1.0"
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(25))
@@ -26,7 +26,7 @@ dependencies {
     compileOnly("org.xerial:sqlite-jdbc:3.47.1.0")
     compileOnly("com.mysql:mysql-connector-j:9.1.0")
     compileOnly("org.mariadb.jdbc:mariadb-java-client:3.5.1")
-    compileOnly("org.postgresql:postgresql:42.7.5")
+    compileOnly("org.postgresql:postgresql:42.7.12")
     implementation("org.bstats:bstats-bukkit:3.1.0")
 
     testImplementation(platform("org.junit:junit-bom:5.11.4"))
@@ -36,10 +36,11 @@ dependencies {
 }
 
 tasks {
+    val pluginVersion = project.version.toString()
     jar { archiveClassifier.set("plain") }
     shadowJar {
         archiveClassifier.set("")
-        archiveFileName.set("mColor-${project.version}.jar")
+        archiveFileName.set("mColor-$pluginVersion.jar")
         mergeServiceFiles()
         relocate("org.bstats", "io.github.miklires.mcolor.libs.bstats")
         exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
@@ -47,7 +48,7 @@ tasks {
     build { dependsOn(shadowJar) }
     processResources {
         filesMatching("plugin.yml") {
-            expand("version" to project.version)
+            expand("version" to pluginVersion)
         }
     }
     test { useJUnitPlatform() }
