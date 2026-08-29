@@ -11,6 +11,7 @@ public record PlayerColor(ColorProfile.Kind kind, List<String> colors) {
 
     public PlayerColor {
         colors = List.copyOf(colors);
+        if (colors.size() > 16) throw new IllegalArgumentException("Too many colors");
         int required = switch (kind) {
             case SOLID -> 1;
             case GRADIENT -> 2;

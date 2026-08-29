@@ -77,6 +77,8 @@ public final class MColorPlugin extends JavaPlugin {
             expansion.register();
         }
         getServer().getOnlinePlayers().forEach(player -> service.load(player.getUniqueId()).thenRun(() -> service.apply(player)));
+        long expiryInterval = Math.clamp(getConfig().getLong("history.expiry-check-seconds", 30), 5, 300);
+        scheduler.asyncTimer(service::expireDue, expiryInterval, expiryInterval, TimeUnit.SECONDS);
         startSync();
         new UpdateChecker(this).start();
         getLogger().info("mColor is ready" + (storage == null ? " in memory-only mode" : ""));

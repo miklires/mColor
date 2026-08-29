@@ -15,6 +15,8 @@ class PlayerColorTest {
     @Test void rejectsInvalidAndIncompleteProfiles() {
         assertThrows(IllegalArgumentException.class, () -> PlayerColor.solid("red"));
         assertThrows(IllegalArgumentException.class, () -> PlayerColor.gradient(List.of("#112233")));
+        assertThrows(IllegalArgumentException.class, () -> PlayerColor.gradient(
+                java.util.stream.IntStream.range(0, 17).mapToObj(ignored -> "#112233").toList()));
     }
 
     @Test void rendersUnicodeByCodePoint() {

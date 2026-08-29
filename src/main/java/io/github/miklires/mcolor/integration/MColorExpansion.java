@@ -7,6 +7,8 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Locale;
+
 public final class MColorExpansion extends PlaceholderExpansion {
     private final MColorPlugin plugin;
     public MColorExpansion(MColorPlugin plugin) { this.plugin = plugin; }
@@ -19,7 +21,7 @@ public final class MColorExpansion extends PlaceholderExpansion {
     public String onRequest(OfflinePlayer player, @NotNull String params) {
         if (player == null) return "";
         OfflinePlayer target = player;
-        if (params.toLowerCase().startsWith("of_")) {
+        if (params.toLowerCase(Locale.ROOT).startsWith("of_")) {
             Player online = plugin.getServer().getPlayerExact(params.substring(3));
             if (online == null) return "";
             target = online;
@@ -27,7 +29,7 @@ public final class MColorExpansion extends PlaceholderExpansion {
         }
         var color = plugin.service().playerColor(target.getUniqueId()).orElse(null);
         String name = target.getName() == null ? "" : target.getName();
-        return switch (params.toLowerCase()) {
+        return switch (params.toLowerCase(Locale.ROOT)) {
             case "name" -> ColorRenderer.legacy(color, name);
             case "name_mm" -> ColorRenderer.miniMessage(color, name);
             case "name_stripped" -> name;
