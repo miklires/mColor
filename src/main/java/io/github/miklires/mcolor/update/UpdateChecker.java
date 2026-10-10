@@ -25,7 +25,7 @@ public final class UpdateChecker {
 
     private void check(String project) {
         try (HttpClient client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(3)).build()) {
-            String filters = "?loaders=%5B%22paper%22%5D&game_versions=%5B%2226.2%22%5D";
+            String filters = "?loaders=%5B%22paper%22%5D&game_versions=%5B%2226.3%22%5D";
             HttpRequest request = HttpRequest.newBuilder(URI.create("https://api.modrinth.com/v2/project/" + project + "/version" + filters))
                     .timeout(Duration.ofSeconds(5)).header("User-Agent", "miklires/mColor").build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

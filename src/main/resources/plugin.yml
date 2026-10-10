@@ -1,7 +1,7 @@
 name: mColor
 version: ${version}
 main: io.github.miklires.mcolor.MColorPlugin
-api-version: '26.2'
+api-version: '26.3'
 author: miklires
 description: Player name colors, gradients, presets, and cross-server synchronization
 website: https://github.com/miklires/mColor

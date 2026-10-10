@@ -66,7 +66,7 @@ jobs:
             version_number: "1.1.0",
             version_type: "release",
             featured: true,
-            game_versions: ["26.2"],
+            game_versions: ["26.3"],
             loaders: ["paper", "purpur", "folia"]
           }' > modrinth-version.json
           curl --fail-with-body --request PATCH \
