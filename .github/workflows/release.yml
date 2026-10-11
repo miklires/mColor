@@ -22,6 +22,17 @@ jobs:
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           MODRINTH_PROJECT_ID: ${{ secrets.MODRINTH_PROJECT_ID }}
-      - run: gh release create "${GITHUB_REF_NAME}" build/libs/mColor-1.1.1.jar api/build/libs/mColor-API-1.1.1.jar --title "${GITHUB_REF_NAME}" --notes-file CHANGELOG.md
+      - name: Create or refresh GitHub release
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="$GITHUB_REF_NAME"
+          version="${tag#v}"
+          artifacts=("build/libs/mColor-${version}.jar" "api/build/libs/mColor-API-${version}.jar")
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" "${artifacts[@]}" --clobber
+          else
+            gh release create "$tag" "${artifacts[@]}" --title "$tag" --notes-file CHANGELOG.md
+          fi
         env:
           GH_TOKEN: ${{ github.token }}

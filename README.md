@@ -38,7 +38,7 @@ mColor applies colors directly through Adventure, so PlaceholderAPI is optional.
 
 ## Quick start
 
-1. Put `mColor-1.1.0.jar` in the server's `plugins` directory and restart.
+1. Put `mColor-1.1.1.jar` in the server's `plugins` directory and restart.
 2. Grant named colors or special effects through your permissions plugin.
 3. Run `/color gui` or `/color red`.
 4. Adjust palettes, presets and limits in `plugins/mColor/config.yml` when needed.
@@ -118,6 +118,6 @@ mColor uses anonymous [bStats metrics](https://bstats.org/plugin/bukkit/mColor/3
 ./gradlew clean build
 ```
 
-Artifacts are written to `build/libs/mColor-1.1.0.jar` and `api/build/libs/mColor-API-1.1.0.jar`.
+Artifacts are written to `build/libs/mColor-1.1.1.jar` and `api/build/libs/mColor-API-1.1.1.jar`.
 
 Licensed under the MIT License.
